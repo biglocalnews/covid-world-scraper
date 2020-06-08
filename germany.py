@@ -1,13 +1,10 @@
 from bs4 import BeautifulSoup
+from old_germany import move_data_ger
 import requests
 import pandas as pd
-from old_germany import move_data_ger
-
 
 def germany():
 
-    # page is downloaded for now
-    # '                        germany_covid_06/06/2020.htm'
     output_header = ['Federal State', 'Number of Cases', 'Difference from Prior Day', 'Cases in past 7 Days', '7-day Incidence', 'Deaths']
 
     url = 'https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Fallzahlen.html'
@@ -54,10 +51,9 @@ def germany():
     df['Deaths'] = df['Deaths'].str.replace('.', ',')
     print(df)
 
-    df.to_csv('./Data/germany_covid19.csv', index=False)
+    df.to_csv('/Users/dilcia_mercedes/Big_Local_News/prog/pitch_intl/PITCH/Data/germany_covid19.csv', index=False)
 
     move_data_ger()
-
 
 
 if __name__ == '__main__':
