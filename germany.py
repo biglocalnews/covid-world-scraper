@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from old_germany import move_data_ger
 import requests
 import pandas as pd
 
@@ -51,6 +52,8 @@ def germany():
     print(df)
 
     df.to_csv('/Users/dilcia_mercedes/Big_Local_News/prog/pitch_intl/PITCH/Data/germany_covid19.csv', index=False)
+
+    move_data_ger()
 
 
 if __name__ == '__main__':
