@@ -2,16 +2,12 @@ from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 
-
 def south_africa():
 
-    orig_url = 'https://sacoronavirus.co.za/category/press-releases-and-notices/'
-    orig_page = requests.get(orig_url)
+    # changing dates on links to get hist. data - doesn't go super far back
+    # https://sacoronavirus.co.za/2020/06/05/update-on-covid-19-05th-june-2020/ for june 5th data and so on
 
-    soup = BeautifulSoup(orig_page.text, 'html.parser')
-    div = soup.find("div", class_="fusion-rollover")
-    link_tag = div.find("a")
-    link = link_tag.get("href")
+    link = 'https://sacoronavirus.co.za/2020/06/04/update-on-covid-19-04th-june-2020/'
     
     page = requests.get(link)
     new_soup = BeautifulSoup(page.text, 'html.parser')
@@ -58,12 +54,9 @@ def south_africa():
     year = parsed_date[0]
     month = parsed_date[1]
     day = parsed_date[2]
-    print(parsed_date)
-    print(link)
 
     SA_cases_df.to_csv(f'/Users/dilcia_mercedes/Big_Local_News/prog/pitch_intl/PITCH/Data/{year}-{month}-{day}_south_africa_covid19.csv', index=False)
     SA_deaths_df.to_csv(f'/Users/dilcia_mercedes/Big_Local_News/prog/pitch_intl/PITCH/Data/{year}-{month}-{day}_south_africa_covid19_deaths.csv', index=False)
-
 
 if __name__ == '__main__':
     south_africa()

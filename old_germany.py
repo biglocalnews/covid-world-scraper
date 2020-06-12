@@ -13,9 +13,14 @@ def move_data_ger():
 
     dirs = os.listdir(start_path)
     for file in dirs:
-        full_start_path = f'{start_path}{file}'
-        full_end_path = f'{end_path}{today_date}_{file}'
-        print(full_start_path)
+        if 'south_africa' in file:
+            full_start_path = f'{start_path}{file}'
+            full_end_path = f'{end_path}{file}'
+        else:
+
+            full_start_path = f'{start_path}{file}'
+            full_end_path = f'{end_path}{today_date}_{file}'
+            print(full_start_path)
         shutil.move(full_start_path, full_end_path)
 
 if __name__ == '__main__':
