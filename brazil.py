@@ -1,17 +1,22 @@
-from bs4 import BeautifulSoup
-import requests
-import pandas as pd
+from selenium import webdriver
+from selenium.webdriver.common.by import By
 
 def brazil():
 
-    with open('/Users/dilcia_mercedes/Big_Local_News/prog/pitch_intl/PITCH/HTML/brazil_covid.htm', 'r') as html:
-        html_file = html.read()
+    # browser = webdriver.Chrome('/Users/dilcia_mercedes/Big_Local_News/prog/pitch_intl/PITCH/chromedriver') 
+    # browser.get('https://covid.saude.gov.br/')
+    # elem = browser.find_element(By.XPATH, "/html/body/app-root/ion-app/ion-router-outlet/app-home/ion-content/div[1]/div[2]/ion-button//button")
+    # print(elem)
 
-        soup = BeautifulSoup(html_file, 'html.parser')
-        # no table apparently
+    # other = browser.find_elements(By.XPATH, '//button')
+    # print(other)
 
+    #says no such element exists because of the shadow root issue
 
 
 
 if __name__ == '__main__':
     brazil()
+
+
+

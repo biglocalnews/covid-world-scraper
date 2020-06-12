@@ -4,13 +4,19 @@ import pandas as pd
 
 def south_africa():
 
-    url = 'https://www.nicd.ac.za/covid-19-update-3-jun/'
-    data = requests.get(url)
+    orig_url = 'https://sacoronavirus.co.za/category/press-releases-and-notices/'
+    orig_page = requests.get(orig_url)
 
-    soup = BeautifulSoup(data.text, 'html.parser')
-    tables = soup.find_all('table')
+    soup = BeautifulSoup(orig_page.text, 'html.parser')
+    div = soup.find("div", class_="fusion-rollover")
+    link_tag = div.find("a")
+    link = link_tag.get("href")
+    
+    page = requests.get(link)
+    new_soup = BeautifulSoup(page.text, 'html.parser')
+    tables = new_soup.find_all('table')
     covid_cases = tables[0]
-    covid_deaths = tables[2]
+    covid_deaths = tables[1]
     
     covid_cases_list = []
 
@@ -46,8 +52,7 @@ def south_africa():
 
     SA_cases_df.to_csv('/Users/dilcia_mercedes/Big_Local_News/prog/pitch_intl/PITCH/Data/south_africa_covid19.csv', index=False)
     SA_deaths_df.to_csv('/Users/dilcia_mercedes/Big_Local_News/prog/pitch_intl/PITCH/Data/south_africa_covid19_deaths.csv', index=False)
-    
-
 
 if __name__ == '__main__':
     south_africa()
+
