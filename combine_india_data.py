@@ -3,6 +3,8 @@ import os
 import pandas as pd
 from pitch_last7 import get_last_seven
 
+## UPDATE THIS WITH `GET HSITORICAL DATA` SCRIPT
+
 date = datetime.datetime.now()
 year = date.year
 day = date.day
