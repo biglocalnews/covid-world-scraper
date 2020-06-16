@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from old_germany import move_data_ger
 import requests
 import pandas as pd
 
@@ -63,6 +64,8 @@ def south_africa():
 
     SA_cases_df.to_csv(f'/Users/dilcia_mercedes/Big_Local_News/prog/pitch_intl/PITCH/Data/{year}-{month}-{day}_south_africa_covid19.csv', index=False)
     SA_deaths_df.to_csv(f'/Users/dilcia_mercedes/Big_Local_News/prog/pitch_intl/PITCH/Data/{year}-{month}-{day}_south_africa_covid19_deaths.csv', index=False)
+
+    move_data_ger()
 
 
 if __name__ == '__main__':
