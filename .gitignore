@@ -6,3 +6,4 @@ combined_data/
 .DS_Store
 __pycache__
 geckodriver.log
+*.egg-info/
