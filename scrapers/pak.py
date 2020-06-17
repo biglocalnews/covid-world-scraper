@@ -12,6 +12,7 @@ iframe URL, then grab the data from the source page on the datastudio.google.com
 
 """
 import csv
+import os
 import time
 
 from selenium import webdriver
@@ -54,7 +55,9 @@ def write_csv(data):
         'deaths',
         'recoveries'
     ]
-    outfile = 'covid_cases_pakistan.csv'
+    file_name = 'pakistan_covid19.csv'
+    base_path = os.environ['TO_DATA_DIR']
+    outfile = f'{base_path}/{file_name}'
     with open(outfile,'w') as out:
         writer = csv.writer(out)
         writer.writerow(header)
