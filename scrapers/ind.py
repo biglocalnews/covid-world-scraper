@@ -1,7 +1,8 @@
 from bs4 import BeautifulSoup
 import requests
+import os
 import pandas as pd
-from old_germany import move_data_ger
+# from old_germany import move_data_ger
 
 def india():
 
@@ -45,9 +46,14 @@ def india():
             counter += 1
 
     india_covid_df = pd.DataFrame(data_list, columns = headers)
-    india_covid_df.to_csv('/Users/dilcia_mercedes/Big_Local_News/prog/pitch_intl/PITCH/Data/india_covid19.csv', index=False)
+    file_name = 'india_covid19.csv'
+    base_path = os.environ['TO_DATA_DIR']
+    full_path = f'{base_path}/{file_name}'
 
-    move_data_ger()
+    india_covid_df.to_csv(full_path, index=False)
+
+
+    # move_data_ger()
 
         
 

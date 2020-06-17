@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
-from old_germany import move_data_ger
+# from old_germany import move_data_ger
 import requests
+import os
 import pandas as pd
 
 
@@ -62,10 +63,21 @@ def south_africa():
     print(parsed_date)
     print(link)
 
-    SA_cases_df.to_csv(f'/Users/dilcia_mercedes/Big_Local_News/prog/pitch_intl/PITCH/Data/{year}-{month}-{day}_south_africa_covid19.csv', index=False)
-    SA_deaths_df.to_csv(f'/Users/dilcia_mercedes/Big_Local_News/prog/pitch_intl/PITCH/Data/{year}-{month}-{day}_south_africa_covid19_deaths.csv', index=False)
+    cases_file_name = f'{year}-{month}-{day}_south_africa_covid19_cases.csv'
+    deaths_file_name = f'{year}-{month}-{day}_south_africa_covid19_deaths.csv'
+    base_path = os.environ['TO_DATA_DIR']
+    cases_full_path = f'{base_path}/{cases_file_name}'
+    deaths_full_path = f'{base_path}/{deaths_file_name}'
+    print(cases_full_path)
+    print(deaths_full_path)
 
-    move_data_ger()
+    SA_cases_df.to_csv(cases_full_path, index=False)
+    SA_deaths_df.to_csv(deaths_full_path, index=False)
+
+    # SA_cases_df.to_csv(f'/Users/dilcia_mercedes/Big_Local_News/prog/pitch_intl/PITCH/Data/{year}-{month}-{day}_south_africa_covid19.csv', index=False)
+    # SA_deaths_df.to_csv(f'/Users/dilcia_mercedes/Big_Local_News/prog/pitch_intl/PITCH/Data/{year}-{month}-{day}_south_africa_covid19_deaths.csv', index=False)
+
+    # move_data_ger()
 
 
 if __name__ == '__main__':

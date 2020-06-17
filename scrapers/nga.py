@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
-from old_germany import move_data_ger
+# from old_germany import move_data_ger
 import requests
+import os
 import pandas as pd
 
 def nigeria():
@@ -40,9 +41,15 @@ def nigeria():
 
     
     nigeria_covid_df = pd.DataFrame(data_list, columns = headers)
-    nigeria_covid_df.to_csv('/Users/dilcia_mercedes/Big_Local_News/prog/pitch_intl/PITCH/Data/nigeria_covid19.csv', index=False)
+    file_name = 'nigeria_covid19.csv'
+    base_path = os.environ['TO_DATA_DIR']
+    full_path = f'{base_path}/{file_name}'
 
-    move_data_ger()
+    nigeria_covid_df.to_csv(full_path, index=False)
+
+    # nigeria_covid_df.to_csv('/Users/dilcia_mercedes/Big_Local_News/prog/pitch_intl/PITCH/Data/nigeria_covid19.csv', index=False)
+
+    # move_data_ger()
     
 
 

@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
-from old_germany import move_data_ger
+# from old_germany import move_data_ger
 import requests
+import os
 import pandas as pd
 
 def germany():
@@ -51,9 +52,14 @@ def germany():
     df['Deaths'] = df['Deaths'].str.replace('.', ',')
     print(df)
 
-    df.to_csv('/Users/dilcia_mercedes/Big_Local_News/prog/pitch_intl/PITCH/Data/germany_covid19.csv', index=False)
+    file_name = 'germany_covid19.csv'
+    base_path = os.environ['TO_DATA_DIR']
+    full_path = f'{base_path}/{file_name}'
+    print(full_path)
 
-    move_data_ger()
+    df.to_csv(full_path, index=False)
+
+    # move_data_ger()
 
 
 if __name__ == '__main__':
