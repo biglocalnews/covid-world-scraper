@@ -3,13 +3,6 @@ Official page for Pakistan COVID figures:
 
     http://covid.gov.pk/stats/pakistan
 
-The above page contains an iframe with the target data.
-This scraper hits the iframe page directly.
-
-We'll need to test if the iframe URL on the home page changes over time,
-If so, we'll need to first scrape the home page for the latest
-iframe URL, then grab the data from the source page on the datastudio.google.com.
-
 """
 import csv
 import os
