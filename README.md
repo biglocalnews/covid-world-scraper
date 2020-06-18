@@ -28,7 +28,7 @@ Countries that share PDFs:
 
 Questions for our Meeting:
 
-- What is the ideal format for the?
+- What is the ideal format for the data?
 - What is the plan for rolling the map out?
 - Will we wait until we gather all of the data to publish it?
 - What are the expectations in terms of scrapers?
