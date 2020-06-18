@@ -13,10 +13,9 @@ Scrapers completed:
 - [X] [Nigeria](https://covid19.ncdc.gov.ng/)
 - [X] [South Africa](https://sacoronavirus.co.za/category/press-releases-and-notices/)
 - [X] [Pakistan](http://covid.gov.pk/stats/pakistan) ***for now***
+- [X] [Brazil](https://covid.saude.gov.br/)
 
-Scrapers in progress:
-
-- [ ] [Brazil](https://covid.saude.gov.br/)
+***A Note:*** Both the Brazil and Pakistan scrapers use Selenium and the Firefox geckodriver for the webscrapes. All other scrapers extract data with BeautifulSoup.
 
 Countries that share PDFs:
 
