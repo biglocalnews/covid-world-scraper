@@ -15,18 +15,23 @@ Scrapers completed:
 - [X] [Pakistan](http://covid.gov.pk/stats/pakistan)
 - [X] [Brazil](https://covid.saude.gov.br/)
 
+* scraper to grab Brazil Excel sheet created - however, a follow up process is needed to aggregate the data.
+
+
 ***A Note:*** Both the Brazil and Pakistan scrapers use Selenium and the Firefox geckodriver for the webscrapes. All other scrapers extract data with BeautifulSoup.
 
 Countries that share PDFs:
 
-- [ ] [Spain](https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov-China/situacionActual.htm)
+- [X] [Spain](https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov-China/situacionActual.htm)
 - [ ] [Indonesia](https://covid19.kemkes.go.id/category/situasi-infeksi-emerging/info-corona-virus/#.XuGkb2pKiL_)
 - [ ] [Russia](https://xn--80aesfpebagmfblc0a.xn--p1ai/info/ofdoc/reports/)
 - [ ] [Mayanmar](https://mohs.gov.mm/page/9575)
 
+* scraper to grab PDF created - however, a follow up process is needed to extract the data.
+
 Questions for our Meeting:
 
-- What is the ideal format for the?
+- What is the ideal format for the data?
 - What is the plan for rolling the map out?
 - Will we wait until we gather all of the data to publish it?
 - What are the expectations in terms of scrapers?
