@@ -4,7 +4,7 @@ Country-specific data scrapers for COVID-19 stats.
 
 In collaboration with Pitch and Google News Lab, Big Local News is collecting data from countries at the regional level for coronavirus cases and deaths. We are scraping websites daily for updates and collecting historical data when available.
 
-Cheryl created a google spreadsheet with links to start with, [here](https://docs.google.com/spreadsheets/d/1cfrT2l5hdIRP582SnFV-8ZOlSsctX5x_YB-V6QmTylk/edit#gid=0)
+Cheryl created a google spreadsheet with links to start with, [here](https://docs.google.com/spreadsheets/d/1cfrT2l5hdIRP582SnFV-8ZOlSsctX5x_YB-V6QmTylk/edit#gid=0).
 
 Scrapers completed:
 
