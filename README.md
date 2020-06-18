@@ -15,6 +15,9 @@ Scrapers completed:
 - [X] [Pakistan](http://covid.gov.pk/stats/pakistan)
 - [X] [Brazil](https://covid.saude.gov.br/)
 
+* scraper to grab Brazil Excel sheet created - however, a follow up process is needed to aggregate the data.
+
+
 ***A Note:*** Both the Brazil and Pakistan scrapers use Selenium and the Firefox geckodriver for the webscrapes. All other scrapers extract data with BeautifulSoup.
 
 Countries that share PDFs:
@@ -24,7 +27,7 @@ Countries that share PDFs:
 - [ ] [Russia](https://xn--80aesfpebagmfblc0a.xn--p1ai/info/ofdoc/reports/)
 - [ ] [Mayanmar](https://mohs.gov.mm/page/9575)
 
-* scraper to grab PDF created - however, a follow up process is needed to extract the data
+* scraper to grab PDF created - however, a follow up process is needed to extract the data.
 
 Questions for our Meeting:
 
