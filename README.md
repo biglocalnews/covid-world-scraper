@@ -19,10 +19,12 @@ Scrapers completed:
 
 Countries that share PDFs:
 
-- [ ] [Spain](https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov-China/situacionActual.htm)
+- [X] [Spain](https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov-China/situacionActual.htm)
 - [ ] [Indonesia](https://covid19.kemkes.go.id/category/situasi-infeksi-emerging/info-corona-virus/#.XuGkb2pKiL_)
 - [ ] [Russia](https://xn--80aesfpebagmfblc0a.xn--p1ai/info/ofdoc/reports/)
 - [ ] [Mayanmar](https://mohs.gov.mm/page/9575)
+
+* scraper to grab PDF created - however, a follow up process is needed to extract the data
 
 Questions for our Meeting:
 
