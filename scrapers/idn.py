@@ -7,7 +7,7 @@ from selenium.webdriver.firefox.options import Options
 def indonesia():
 
     # switched to selenium
-    
+
     url = 'https://covid19.kemkes.go.id/category/situasi-infeksi-emerging/info-corona-virus/#.XuvC8GpKjRb'
     opts = Options()
     opts.headless = True
@@ -18,6 +18,11 @@ def indonesia():
             options=opts
         )
         driver.get(url)
+
+        first_link = driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/div/div/article[1]/h2/a").click()
+        # how do I make sure the right thing is being clicked?
+        # what are the advantages of running headless?
+
     finally:
         driver.quit()
 
@@ -38,7 +43,7 @@ def ff_profile(download_dir=os.getcwd()):
     return fp
 
 
-
+    # BeautifulSoup based scraper
     # page = requests.get(url)
     # soup = BeautifulSoup(page.text, 'html.parser')
 
