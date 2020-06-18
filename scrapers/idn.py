@@ -5,6 +5,9 @@ from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 
 def indonesia():
+
+    # switched to selenium
+    
     url = 'https://covid19.kemkes.go.id/category/situasi-infeksi-emerging/info-corona-virus/#.XuvC8GpKjRb'
     opts = Options()
     opts.headless = True
