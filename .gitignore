@@ -1,6 +1,7 @@
 HTML/
 old_data/
 Data/
+PDF_data/
 combined_data/
 .DS_Store
 __pycache__

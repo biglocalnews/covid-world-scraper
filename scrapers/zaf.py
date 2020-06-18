@@ -14,6 +14,7 @@ def south_africa():
     div = soup.find("div", class_="fusion-rollover")
     link_tag = div.find("a")
     link = link_tag.get("href")
+    print(link)
     
     page = requests.get(link)
     new_soup = BeautifulSoup(page.text, 'html.parser')
