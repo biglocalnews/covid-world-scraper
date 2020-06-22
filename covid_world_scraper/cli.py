@@ -3,9 +3,6 @@ import logging
 
 import click
 
-import covid_world_scraper
-
-
 
 @click.command(
     help="3-letter country codes for one or more countries. Multiple abbreviations can be "
@@ -16,14 +13,16 @@ def cli(countries, all):
     """Scrape data for one or more countries."""
     logging.basicConfig(
         level=logging.INFO,
-        format='%(asctime)s %(name)-12s %(message)s',
+        format='%(asctime)s - %(name)-12s - %(message)s',
         datefmt='%m-%d %H:%M',
         filename='/tmp/covid-world-scraper.log',
         filemode='a'
     )
     console = logging.StreamHandler()
     console.setLevel(logging.INFO)
-    logging.getLogger(__name__).addHandler(console)
+    formatter = logging.Formatter('%(name)-12s - %(message)s')
+    console.setFormatter(formatter)
+    logging.getLogger('').addHandler(console)
 
     if all:
         click.echo("Scraping all countries")
