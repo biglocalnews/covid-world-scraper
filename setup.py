@@ -8,6 +8,7 @@ requirements = [
     'click',
     'pandas',
     'requests',
+    'retrying',
     'selenium',
 ]
 
