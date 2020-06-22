@@ -43,10 +43,14 @@ class Bra(CountryScraper):
                     logger.info('Downloaded {}'.format(target_file))
                     standardized_name = self._rename_xlxs(target_file)
                     logger.info('Renamed file to {}'.format(standardized_name))
-                    break
+                    return standardized_name
         finally:
             driver.quit()
 
+    def extract(self, raw_data_path):
+        #TODO: Flesh this method out
+        logger.info('TODO: Convert {} to a CSV'.format(raw_data_path))
+        logger.info('TODO: Store the CSV in {}'.format(self.processed_dir))
 
     def ff_profile(self, download_dir):
         # Configure Firefox profile to avoid triggering pop-up
