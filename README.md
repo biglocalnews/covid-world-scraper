@@ -14,16 +14,18 @@ In collaboration with Pitch and Google News Lab, Big Local News is collecting da
 
 ## Country scraping status
 
-- [X] [Germany](https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Fallzahlen.html)
-- [X] [India](https://www.mohfw.gov.in/)
-- [X] [Nigeria](https://covid19.ncdc.gov.ng/)
-- [X] [South Africa](https://sacoronavirus.co.za/category/press-releases-and-notices/)
+Currently, Serdar and I are working on updating the scrapers to fit with the CountryScraper Class.
+
+- [ ] [Germany](https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Fallzahlen.html) ***WIP***
+- [ ] [India](https://www.mohfw.gov.in/)  ***WIP***
+- [ ] [Nigeria](https://covid19.ncdc.gov.ng/)
+- [ ] [South Africa](https://sacoronavirus.co.za/category/press-releases-and-notices/)
 - [X] [Pakistan](http://covid.gov.pk/stats/pakistan)
 - [X] [Brazil](https://covid.saude.gov.br/)
 
 Countries that share PDFs:
 
-- [X] [Spain](https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov-China/situacionActual.htm)
+- [ ] [Spain](https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov-China/situacionActual.htm) ***Scraper done, not converted to class***
 - [ ] [Indonesia](https://covid19.kemkes.go.id/category/situasi-infeksi-emerging/info-corona-virus/#.XuGkb2pKiL_)
 - [ ] [Russia](https://xn--80aesfpebagmfblc0a.xn--p1ai/info/ofdoc/reports/)
 - [ ] [Mayanmar](https://mohs.gov.mm/page/9575)
