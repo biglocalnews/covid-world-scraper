@@ -8,7 +8,9 @@ requirements = [
     'click',
     'pandas',
     'requests',
+    'retrying',
     'selenium',
+    'xlrd',
 ]
 
 test_requirements = [
