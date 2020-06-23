@@ -50,18 +50,18 @@ class Bra(CountryScraper):
             driver.quit()
 
     def extract(self, raw_data_path):
-        #TODO: Flesh this method out
-        logger.info('TODO: Convert {} to a CSV'.format(raw_data_path))
-        logger.info('TODO: Store the CSV in {}'.format(self.processed_dir))
+        logger.info('Extracting data from {}'.format(raw_data_path))
         brazil_raw_data = xlrd.open_workbook(raw_data_path)
         sheet = brazil_raw_data.sheet_by_index(0)
-        basename = raw_data_path.split('/')[-1].replace('txt','csv')
+        basename = raw_data_path.split('/')[-1].replace('xlsx','csv')
         outfile_path = str(self.processed_dir.joinpath(basename))
         outfile = open(outfile_path, 'w')
-        csv_written = csv.writer(outfile, quoting=csv.QUOTE_ALL)
+        csv_written = csv.writer(outfile)
         for row in range(sheet.nrows):
             csv_written.writerow(sheet.row_values(row))
         outfile.close()
+        logger.info('Created {}'.format(outfile_path))
+        return outfile_path
         
     def ff_profile(self, download_dir):
         # Configure Firefox profile to avoid triggering pop-up
@@ -85,6 +85,8 @@ class Bra(CountryScraper):
     )
     def _get_file_name(self, download_dir):
         """
+        The file names below are examples of the raw data naming convention. 
+
         HIST_PAINEL_COVIDBR_21jun2020.xlsx
         HIST_PAINEL_COVIDBR_21jun2020.xlsx.part
         """
