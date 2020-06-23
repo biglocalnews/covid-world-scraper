@@ -51,7 +51,16 @@ class Bra(CountryScraper):
         #TODO: Flesh this method out
         logger.info('TODO: Convert {} to a CSV'.format(raw_data_path))
         logger.info('TODO: Store the CSV in {}'.format(self.processed_dir))
-
+        brazil_raw_data = xlrd.open_workbook(raw_data_path)
+        sheet = brazil_raw_data.sheet_by_index(0)
+        basename = raw_data_path.split('/')[-1].replace('txt','csv')
+        outfile_path = str(self.processed_dir.joinpath(basename))
+        outfile = open(outfile_path, 'w')
+        csv_written = csv.writer(outfile, quoting=csv.QUOTE_ALL)
+        for row in range(sheet.nrows):
+            csv_written.writerow(sheet.row_values(row))
+        outfile.close()
+        
     def ff_profile(self, download_dir):
         # Configure Firefox profile to avoid triggering pop-up
         # that requests permission to download, per Selenium docs:
