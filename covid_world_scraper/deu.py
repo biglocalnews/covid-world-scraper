@@ -1,5 +1,5 @@
 """
-Official page for Pakistan COVID figures:
+Official page for Germany COVID figures:
 
     https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Fallzahlen.html
 
