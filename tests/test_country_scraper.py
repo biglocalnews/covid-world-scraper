@@ -1,6 +1,7 @@
 from unittest.mock import patch, MagicMock
 
 import pytest
+from pathlib import Path
 
 from .conftest import file_contents, cache_root
 from covid_world_scraper import CountryScraper
@@ -74,3 +75,28 @@ def test_save_to_raw_cache(cache_root):
     path = pak.save_to_raw_cache(contents, 'txt')
     assert contents == file_contents(path)
     assert isinstance(path, str)
+
+def test_processed_filename_from_raw(cache_root):
+    pak = Pak(cache_root)
+    source_file = '/tmp/foo.html'
+    actual = pak.processed_filepath_from_raw(source_file, 'csv')
+    assert actual == '/tmp/foo.csv'
+
+def test_write_csv(cache_root):
+    pak = Pak(cache_root)
+    Path(cache_root).mkdir()
+    data = [['col1','col2'], ['foo', 'bar']]
+    outfile = str(Path(cache_root).joinpath('test.csv'))
+    actual = pak.write_csv(data, outfile)
+    expected = "col1,col2\nfoo,bar\n"
+    assert file_contents(outfile) == expected
+
+def test_write_csv_with_headers(cache_root):
+    pak = Pak(cache_root)
+    Path(cache_root).mkdir()
+    headers = ['col1','col2']
+    data = [['foo', 'bar']]
+    outfile = str(Path(cache_root).joinpath('test.csv'))
+    actual = pak.write_csv(data, outfile, headers=headers)
+    expected = "col1,col2\nfoo,bar\n"
+    assert file_contents(outfile) == expected

@@ -1,3 +1,4 @@
+import csv
 import logging
 
 from pathlib import Path
@@ -110,6 +111,20 @@ class CountryScraper:
         logger.info("Saved {}".format(outfile))
         return str(outfile)
 
+    def processed_filepath_from_raw(self, raw_path, new_extension):
+        return raw_path\
+                .replace('raw', 'processed')\
+                .split('.')[0] +\
+                '.{}'.format(new_extension)
+
+    def write_csv(self, data, outfile, headers=[]):
+        with open(outfile,'w') as out:
+            writer = csv.writer(out)
+            if headers:
+                writer.writerow(headers)
+            writer.writerows(data)
+        logger.info("Saved extracted data to {}".format(outfile))
+
     def _set_runtime(self):
         return datetime.utcnow()
 
@@ -134,4 +149,3 @@ class CountryScraper:
         basename = "{}.png".format(self.runtimestamp)
         outfile = self.raw_dir.joinpath(basename)
         return str(outfile)
-
