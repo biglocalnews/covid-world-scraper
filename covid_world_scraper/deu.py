@@ -63,6 +63,7 @@ class Deu(CountryScraper):
         outfile = str(self.processed_dir.joinpath(basename))
         self._write_csv(deu_data, outfile)
         logger.info('Created {}'.format(outfile))
+        return outfile
 
 
     def _write_csv(self, data, outfile):
