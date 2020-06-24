@@ -31,12 +31,9 @@ class Kor(CountryScraper):
             soup = BeautifulSoup(fh.read(), 'html.parser')
             data = []
             headers = ["City/Province", "Daily Change", "Imported Cases", "Local Outbreak", "Confirmed Cases", "Isolated", "Released from Quarantine", "Deceased", "Incidence(*)"]
-            
             tbody_rows = soup.table.tbody.find_all('tr')
-            print(tbody_rows)
             for tr in tbody_rows:
                 provinces = [cell.text.strip() for cell in tr.find_all('th')]
-                print(provinces)
                 cells = [cell.text.strip() for cell in tr.find_all('td')]
                 for province, cell in zip(provinces, cells):
                     all_data = [province]
