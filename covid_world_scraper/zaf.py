@@ -4,7 +4,6 @@ Official page for South Africa COVID figures:
     https://sacoronavirus.co.za/category/press-releases-and-notices/
 
 """
-import csv
 import logging
 import os
 import requests
