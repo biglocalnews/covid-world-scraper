@@ -43,5 +43,14 @@ class Ind(CountryScraper):
         return outfile
 
     def _is_data_row(self, row):
-        return re.match(r'\d+', row[0])
+        status = False
+        if re.match(r'\d+', row[0]):
+            status = True
+        try:
+            if re.match(r'^(Cases|Total).+$', row[1]):
+                status = True
+        except IndexError:
+            # footnote lines are single-element lists
+            pass
+        return status
 
