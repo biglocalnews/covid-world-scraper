@@ -30,8 +30,12 @@ class Zaf(CountryScraper):
         div = soup.find("div", class_="fusion-rollover")
         link_tag = div.find("a")
         link = link_tag.get("href")
+        link = 'https://sacoronavirus.co.za/2020/06/23/update-on-covid-19-23rd-june-2020/'
 
         page = requests.get(link)
+
+        #replacing above for now
+        print(link)
         saved_file = self.save_to_raw_cache(page.text, 'html')
         return saved_file
 
@@ -71,28 +75,19 @@ class Zaf(CountryScraper):
                 covid_deaths_list.append(text_list)
                 
 
-        covid_cases_header = covid_cases_list[0]
-        covid_cases_list = covid_cases_list[1:]
-        covid_deaths_header = covid_deaths_list[0]
-        covid_deaths_list = covid_deaths_list[1:]
+        cases_headers = covid_cases_list[0]
+        cases_list = covid_cases_list[1:]
+        deaths_headers = covid_deaths_list[0]
+        deaths_list = covid_deaths_list[1:]
 
-        basename = source_file.split('/')[-1].replace('.html','_cases.csv')
-        cases_outfile = str(self.processed_dir.joinpath(basename))
-        self._write_csv(covid_cases_header, covid_cases_list, cases_outfile)
-        logger.info('Created {}'.format(cases_outfile))
+        cases_outfile = self.processed_filepath_from_raw(f'{source_file}_cases', 'csv')
+        merged_data = [cases_headers]
+        merged_data.extend(cases_list)
+        self.write_csv(merged_data, cases_outfile)
 
-        deaths_basename = source_file.split('/')[-1].replace('.html','_deaths.csv')
-        deaths_outfile = str(self.processed_dir.joinpath(deaths_basename))
-        self._write_csv(covid_deaths_header, covid_deaths_list, deaths_outfile)
-        logger.info('Created {}'.format(deaths_outfile))
+        deaths_outfile = self.processed_filepath_from_raw(f'{source_file}_deaths', 'csv')
+        merged_data = [deaths_headers]
+        merged_data.extend(deaths_list)
+        self.write_csv(merged_data, deaths_outfile)
 
         return cases_outfile, deaths_outfile
-
-
-    def _write_csv(self, header, data, outfile):
-
-        with open(outfile,'w') as out:
-            writer = csv.writer(out)
-            writer.writerow(header)
-            writer.writerows(data)
-        logger.info("Save extracted data to {}".format(outfile))

@@ -1,3 +1,10 @@
+"""
+Official page for India COVID figures:
+
+    https://www.mohfw.gov.in/
+
+"""
+
 import logging
 import os
 import re
