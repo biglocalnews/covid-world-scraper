@@ -52,6 +52,7 @@ class Pak(CountryScraper):
             basename = source_file.split('/')[-1].replace('txt','csv')
             outfile = str(self.processed_dir.joinpath(basename))
             self._write_csv(data, outfile)
+            return outfile
 
     ## PRIVATE ##
 

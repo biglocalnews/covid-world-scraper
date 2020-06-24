@@ -1,61 +1,47 @@
+import logging
+import os
+import re
+
 from bs4 import BeautifulSoup
 import requests
-import os
-import pandas as pd
-# from old_germany import move_data_ger
-
-def india():
-
-    url = 'https://www.mohfw.gov.in/'
-    data = requests.get(url)
-
-    soup = BeautifulSoup(data.text, 'html.parser')
-        
-    table = soup.table
-    print(table)
-
-    data_list = []
-    headers = []
-    table_row = table.find_all('tr')
-    for tr in table_row:
-
-        th = tr.find_all('th')
-        for header in th:
-            headers.append(header.text)
-
-        td = tr.find_all('td')
-        text_list = []
-        for data in td:
-            text_list.append(data.text)
-        data_list.append(text_list)
-
-    
-    data_list = data_list[1:38]
 
 
-    new_list = []
-    for row in data_list:
-        print(row)
-        print(len(row))
-
-        counter = 0
-        for i in row:
-            i = i.replace('\n', '')
-            print(i)
-            row[counter] = i
-            counter += 1
-
-    india_covid_df = pd.DataFrame(data_list, columns = headers)
-    file_name = 'india_covid19.csv'
-    base_path = os.environ['TO_DATA_DIR']
-    full_path = f'{base_path}/{file_name}'
-
-    india_covid_df.to_csv(full_path, index=False)
+logger = logging.getLogger(__name__)
 
 
-    # move_data_ger()
+from .country_scraper import CountryScraper
 
-        
 
-if __name__ == '__main__':
-    india()
+class Ind(CountryScraper):
+
+
+    def fetch(self):
+        url = 'https://www.mohfw.gov.in/'
+        response = requests.get(url)
+        saved_file = self.save_to_raw_cache(response.text, 'html')
+        return saved_file
+
+    def extract(self, raw_data_path):
+        with open(raw_data_path) as fh:
+            soup = BeautifulSoup(fh.read(), 'html.parser')
+            headers = [h.text for h in soup.table.thead.find_all('th')]
+            data = []
+            tbody_rows = soup.table.tbody.find_all('tr')
+            for tr in tbody_rows:
+                cells = [cell.text.strip() for cell in tr.find_all('td')]
+                if self._is_data_row(cells):
+                    data.append(cells)
+                else:
+                    # footnote cells at bottom of table
+                    # signal end of relevant data, so
+                    # break to avoid extra loops
+                    break
+        outfile = self.processed_filepath_from_raw(raw_data_path, 'csv')
+        merged_data = [headers]
+        merged_data.extend(data)
+        self.write_csv(merged_data, outfile)
+        return outfile
+
+    def _is_data_row(self, row):
+        return re.match(r'\d+', row[0])
+
