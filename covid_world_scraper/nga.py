@@ -1,57 +1,42 @@
-from bs4 import BeautifulSoup
-# from old_germany import move_data_ger
-import requests
+"""
+Official page for Nigeria COVID figures:
+
+    https://covid19.ncdc.gov.ng/
+
+"""
+import logging
 import os
-import pandas as pd
+import re
 
-def nigeria():
+from bs4 import BeautifulSoup
+import requests
 
-    url = 'https://covid19.ncdc.gov.ng/'
-    data = requests.get(url)
+from .country_scraper import CountryScraper
 
-    soup = BeautifulSoup(data.text, 'html.parser')
-    
-    table = soup.table
-    
-    data_list = []
-    headers = []
-    table_row = table.find_all('tr')
-    
-    for tr in table_row:
+logger = logging.getLogger(__name__)
 
-        th = tr.find_all('th')
-        for header in th:
-            headers.append(header.text)
+class Nga(CountryScraper):
 
-        text_list = []
-        td = tr.find_all('td')
-        for data in td:
-            text_list.append(data.text)
-        data_list.append(text_list)
+    def fetch(self):
 
-    data_list = data_list[1:]
-    
-    for data_row in data_list:
-        counter = 0
-        for data in data_row:
-            data = data.replace('\n', '')
-            data_row[counter] = data
-            counter += 1
+        url = 'https://covid19.ncdc.gov.ng/'
+        response = requests.get(url)
+        saved_file = self.save_to_raw_cache(response.text, 'html')
+        return saved_file
 
+    def extract(self, source_file):
 
-    
-    nigeria_covid_df = pd.DataFrame(data_list, columns = headers)
-    file_name = 'nigeria_covid19.csv'
-    base_path = os.environ['TO_DATA_DIR']
-    full_path = f'{base_path}/{file_name}'
+        with open(source_file) as fh:
+            soup = BeautifulSoup(fh.read(), 'html.parser')
+            headers = [h.text for h in soup.table.thead.find_all('th')]
+            data = []
+            tbody_rows = soup.table.tbody.find_all('tr')
+            for tr in tbody_rows:
+                cells = [cell.text.strip() for cell in tr.find_all('td')]
+                data.append(cells)
 
-    nigeria_covid_df.to_csv(full_path, index=False)
-
-    # nigeria_covid_df.to_csv('/Users/dilcia_mercedes/Big_Local_News/prog/pitch_intl/PITCH/Data/nigeria_covid19.csv', index=False)
-
-    # move_data_ger()
-    
-
-
-if __name__ == '__main__':
-    nigeria()
+        outfile = self.processed_filepath_from_raw(source_file, 'csv')
+        merged_data = [headers]
+        merged_data.extend(data)
+        self.write_csv(merged_data, outfile)
+        return outfile
