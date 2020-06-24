@@ -30,12 +30,11 @@ class Zaf(CountryScraper):
         div = soup.find("div", class_="fusion-rollover")
         link_tag = div.find("a")
         link = link_tag.get("href")
+
+        #replacing above for now
         link = 'https://sacoronavirus.co.za/2020/06/23/update-on-covid-19-23rd-june-2020/'
 
         page = requests.get(link)
-
-        #replacing above for now
-        print(link)
         saved_file = self.save_to_raw_cache(page.text, 'html')
         return saved_file
 
