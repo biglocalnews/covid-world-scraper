@@ -27,23 +27,31 @@ class Kor(CountryScraper):
 
 
     def extract(self, raw_data_path):
-        with open(raw_data_path) as fh:
-            soup = BeautifulSoup(fh.read(), 'html.parser')
-            data = []
-            headers = ["City/Province", "Daily Change", "Imported Cases", "Local Outbreak", "Confirmed Cases", "Isolated", "Released from Quarantine", "Deceased", "Incidence(*)"]
-            tbody_rows = soup.table.tbody.find_all('tr')
-            for tr in tbody_rows:
-                provinces = [cell.text.strip() for cell in tr.find_all('th')]
-                cells = [cell.text.strip() for cell in tr.find_all('td')]
-                for province, cell in zip(provinces, cells):
-                    all_data = [province]
-                    all_data.extend(cells)
-                data.append(all_data)
-         
-        outfile = self.processed_filepath_from_raw(raw_data_path, 'csv')
-        merged_data = [headers]
-        merged_data.extend(data)
-        self.write_csv(merged_data, outfile)
-        return outfile
+            with open(raw_data_path) as fh:
+                soup = BeautifulSoup(fh.read(), 'html.parser')
+                data = []
+                headers = ["City/Province", "Daily Change", "Imported Cases", "Local Outbreak", "Confirmed Cases", "Isolated", "Released from Quarantine", "Deceased", "Incidence(*)", "Date", "Scrape Date"]
+                date = soup.find("p", class_="info")
+                scrape_date = self.runtimestamp
+        
+                tbody_rows = soup.table.tbody.find_all('tr')
+                for tr in tbody_rows:
+                    provinces = [cell.text.strip() for cell in tr.find_all('th')]
+                    cells = [cell.text.strip() for cell in tr.find_all('td')]
+                    for province, cell in zip(provinces, cells):
+                        all_data = [province]
+                        all_data.extend(cells)
+                        site_date = [date.text]
+                        scrape_date = [self.runtimestamp]
+                        all_data.extend(site_date)
+                        all_data.extend(scrape_date)
+                    data.append(all_data)
+            
+            outfile = self.processed_filepath_from_raw(raw_data_path, 'csv')
+            merged_data = [headers]
+            merged_data.extend(data)
+            
+            self.write_csv(merged_data, outfile)
+            return outfile
 
         
