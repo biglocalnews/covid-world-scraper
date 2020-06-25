@@ -39,6 +39,9 @@ class Zaf(CountryScraper):
         with open(source_file) as html_file:
             soup = BeautifulSoup(html_file.read(), 'html.parser')
 
+            date = soup.find("span", class_="updated rich-snippet-hidden")
+            scrape_date = self.runtimestamp
+
             # Extracting cases data 
             tables = soup.find_all('table')
             covid_cases = tables[0]
@@ -49,7 +52,10 @@ class Zaf(CountryScraper):
                     cell.text.strip().replace(',','.')
                     for cell in tr.find_all('td')
                 ]
+                cells.extend([date.text])
+                cells.extend([scrape_date])
                 covid_cases_list.append(cells)
+
 
             # Extracting deaths data
             covid_deaths = tables[1]
@@ -59,7 +65,16 @@ class Zaf(CountryScraper):
                     cell.text.strip().replace(',','.')
                     for cell in tr.find_all('td')
                 ]
+
+                cells.extend([date.text])
+                cells.extend([scrape_date])
                 covid_deaths_list.append(cells)
+
+            
+            covid_cases_list[0][3] = "Date"
+            covid_cases_list[0][4] = "Scrape_Date"
+            covid_deaths_list[0][3] = "Date"
+            covid_deaths_list[0][4] = "Scrape_Date"
 
         cases_headers = covid_cases_list[0]
         cases_list = covid_cases_list[1:]
