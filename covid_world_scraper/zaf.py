@@ -36,10 +36,10 @@ class Zaf(CountryScraper):
             soup = BeautifulSoup(html_file.read(), 'html.parser')
             date = soup.find("span", class_="updated rich-snippet-hidden")
             scrape_date = self.runtimestamp
-            # Extracting cases data
+            # Extract table data
             tables = soup.find_all('table')
-            cases = self._prepare_processed_csv(tables[0], date, scrape_date)
-            deaths = self._prepare_processed_csv(tables[1], date, scrape_date)
+            cases = self._prepare_processed_csv_data(tables[0], date, scrape_date)
+            deaths = self._prepare_processed_csv_data(tables[1], date, scrape_date)
 
         # Generate output fiel names
         processed_base_name = source_file.split('.')[0]
@@ -52,7 +52,7 @@ class Zaf(CountryScraper):
 
         return cases_outfile, deaths_outfile
 
-    def _prepare_processed_csv(self, table, date, scrape_date):
+    def _prepare_processed_csv_data(self, table, date, scrape_date):
         # Add date fields to header rows
         data = []
         for tr in table.find_all('tr'):
