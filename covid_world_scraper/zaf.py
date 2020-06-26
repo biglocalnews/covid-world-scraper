@@ -32,52 +32,39 @@ class Zaf(CountryScraper):
         return saved_file
 
     def extract(self, source_file):
-
-        covid_deaths_list = []
-        covid_cases_list = []
-
         with open(source_file) as html_file:
             soup = BeautifulSoup(html_file.read(), 'html.parser')
-
-            # Extracting cases data 
+            date = soup.find("span", class_="updated rich-snippet-hidden")
+            scrape_date = self.runtimestamp
+            # Extract table data
             tables = soup.find_all('table')
-            covid_cases = tables[0]
+            cases = self._prepare_processed_csv_data(tables[0], date, scrape_date)
+            deaths = self._prepare_processed_csv_data(tables[1], date, scrape_date)
 
-            covid_table_row = covid_cases.find_all('tr')
-            for tr in covid_table_row:
-                cells = [
-                    cell.text.strip().replace(',','.')
-                    for cell in tr.find_all('td')
-                ]
-                covid_cases_list.append(cells)
-
-            # Extracting deaths data
-            covid_deaths = tables[1]
-            deaths_table_row = covid_deaths.find_all('tr')
-            for tr in deaths_table_row:
-                cells = [
-                    cell.text.strip().replace(',','.')
-                    for cell in tr.find_all('td')
-                ]
-                covid_deaths_list.append(cells)
-
-        cases_headers = covid_cases_list[0]
-        cases_list = covid_cases_list[1:]
-        deaths_headers = covid_deaths_list[0]
-        deaths_list = covid_deaths_list[1:]
-
-        processed_base_name = source_file.split('.')[0]
+        # Generate output fiel names
+        processed_base_name = source_file.replace('raw','processed').split('.')[0]
         cases_outfile = '{}_cases.csv'.format(processed_base_name)
-        merged_case_data = [cases_headers]
-        merged_case_data.extend(cases_list)
-        self.write_csv(merged_case_data, cases_outfile)
-
         deaths_outfile = '{}_deaths.csv'.format(processed_base_name)
-        merged_deaths_data = [deaths_headers]
-        merged_deaths_data.extend(deaths_list)
-        self.write_csv(merged_deaths_data, deaths_outfile)
+
+        # Write data
+        self.write_csv(cases, cases_outfile)
+        self.write_csv(deaths, deaths_outfile)
 
         return cases_outfile, deaths_outfile
+
+    def _prepare_processed_csv_data(self, table, date, scrape_date):
+        # Add date fields to header rows
+        data = []
+        for tr in table.find_all('tr'):
+            cells = [
+                cell.text.strip().replace(',','.')
+                for cell in tr.find_all('td')
+            ]
+            cells.extend([date.text, scrape_date])
+            data.append(cells)
+        # Add new fields to header row
+        data[0][-2:] = ['date', 'scrape_date']
+        return data
 
     def _data_page_links(self, soup):
         # Grab all links
