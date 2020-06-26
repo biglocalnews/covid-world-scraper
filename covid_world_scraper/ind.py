@@ -35,13 +35,11 @@ class Ind(CountryScraper):
             headers.extend(["Date", "Scrape_Date"])
             data = []
             date = soup.find("div", class_="status-update")
-            
-            date = date.text.split(':', 1)[1]
-            date = date.replace('\n', '')
-            date = date.replace('\t', '')
-
+            date = date.text.split(':', 1)[1]\
+                .replace('\n', '')\
+                .replace('\t', '')\
+                .strip()
             scrape_date = self.runtimestamp
-
             tbody_rows = soup.table.tbody.find_all('tr')
             for tr in tbody_rows:
                 cells = [cell.text.strip() for cell in tr.find_all('td')]
@@ -55,7 +53,6 @@ class Ind(CountryScraper):
                     # break to avoid extra loops
                     break
 
-                
         outfile = self.processed_filepath_from_raw(raw_data_path, 'csv')
         merged_data = [headers]
         merged_data.extend(data)
