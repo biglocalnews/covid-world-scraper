@@ -29,6 +29,9 @@ class Kor(CountryScraper):
     def extract(self, raw_data_path):
         with open(raw_data_path) as fh:
             soup = BeautifulSoup(fh.read(), 'html.parser')
+            date = soup.find_all("font")
+            print(date)
+            scrape_date = self.runtimestamp
             data = []
             headers = [
                 "City/Province",
