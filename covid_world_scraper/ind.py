@@ -44,8 +44,7 @@ class Ind(CountryScraper):
             for tr in tbody_rows:
                 cells = [cell.text.strip() for cell in tr.find_all('td')]
                 if self._is_data_row(cells):
-                    cells.extend([date])
-                    cells.extend([scrape_date])
+                    cells.extend([date, scrape_date])
                     data.append(cells)
                 else:
                     # footnote cells at bottom of table
