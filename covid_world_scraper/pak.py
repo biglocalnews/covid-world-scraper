@@ -33,6 +33,9 @@ class Pak(CountryScraper):
             time.sleep(20)
             driver.get_screenshot_as_file(self._screenshot_path)
             logger.info("Saved screenshot of web page to {}".format(self._screenshot_path))
+            date = driver.find_elements_by_xpath('/html/body/app-bootstrap/ng2-bootstrap/bootstrap/div/div/div/div/div[1]/div[2]/div/div[1]/div[1]/div[1]/div/lego-report/lego-canvas-container/div/file-drop-zone/span/content-section/canvas-component[20]/div/div/div[1]/div/div/lego-table/div/div[3]/div/div')[0].get_attribute('innerText')
+            scrape_date = self.runtimestamp
+
             tables = driver.find_elements_by_css_selector('lego-table.table.ng-scope')
             for tbl in tables:
                 text = tbl.text.strip().replace(',','')
@@ -43,7 +46,7 @@ class Pak(CountryScraper):
                     cached_text_path = self.save_to_raw_cache(inner_text, 'txt')
         finally:
             driver.quit()
-        return cached_text_path
+        return cached_text_path, date, scrape_date
 
     def extract(self, source_file):
         with open(source_file, 'r') as infile:
