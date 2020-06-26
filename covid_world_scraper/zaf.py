@@ -42,7 +42,7 @@ class Zaf(CountryScraper):
             deaths = self._prepare_processed_csv_data(tables[1], date, scrape_date)
 
         # Generate output fiel names
-        processed_base_name = source_file.split('.')[0]
+        processed_base_name = source_file.replace('raw','processed').split('.')[0]
         cases_outfile = '{}_cases.csv'.format(processed_base_name)
         deaths_outfile = '{}_deaths.csv'.format(processed_base_name)
 
@@ -63,7 +63,7 @@ class Zaf(CountryScraper):
             cells.extend([date.text, scrape_date])
             data.append(cells)
         # Add new fields to header row
-        data[0].extend(['date', 'scrape_date'])
+        data[0][-2:] = ['date', 'scrape_date']
         return data
 
     def _data_page_links(self, soup):
