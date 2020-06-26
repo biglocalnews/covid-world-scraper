@@ -41,7 +41,7 @@ class Kor(CountryScraper):
                 "Deceased",
                 "Incidence(*)",
                 "date",
-                "bln_scrape_date"
+                "scrape_date"
             ]
             raw_date = soup.find("p", class_="info")
             site_date = self._parse_date(raw_date.text)
