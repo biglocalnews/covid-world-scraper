@@ -32,7 +32,7 @@ class Ind(CountryScraper):
         with open(raw_data_path) as fh:
             soup = BeautifulSoup(fh.read(), 'html.parser')
             headers = [h.text for h in soup.table.thead.find_all('th')]
-            headers.extend(["Date", "Scrape_Date"])
+            headers.extend(["date", "scrape_date"])
             data = []
             date = soup.find("div", class_="status-update")
             date = date.text.split(':', 1)[1]\
