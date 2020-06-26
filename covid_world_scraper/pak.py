@@ -34,6 +34,7 @@ class Pak(CountryScraper):
             driver.get_screenshot_as_file(self._screenshot_path)
             logger.info("Saved screenshot of web page to {}".format(self._screenshot_path))
             tables = driver.find_elements_by_css_selector('lego-table.table.ng-scope')
+            
             for tbl in tables:
                 text = tbl.text.strip().replace(',','')
                 if text.startswith('AJK'):
