@@ -47,18 +47,15 @@ extracted from these raws sources are stored in a `processed` directory
 for each country. Files in both directories are named based on the
 UTC runtime of the scraper.
 
-Here's an example:
+Here's an example showing results for the Pakistan scraper following
+scrapes on two consecutive days in June 2020.
 
 ```
 covid-world-scraper/pak
 ├── processed
-│   ├── 20200627T0124Z.csv
 │   ├── 20200627T0126Z.csv
 │   └── 20200628T1705Z.csv
 └── raw
-    ├── 20200627T0124Z.html
-    ├── 20200627T0124Z.png
-    ├── 20200627T0124Z.txt
     ├── 20200627T0126Z.html
     ├── 20200627T0126Z.png
     ├── 20200627T0126Z.txt
