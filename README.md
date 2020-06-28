@@ -1,4 +1,4 @@
-# COVID Worldwide Scrapers
+# COVID World Scrapers
 
 - [Oveview](#overview)
 - [Install](#install)
