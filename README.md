@@ -31,8 +31,9 @@ pip install git+https://github.com/biglocalnews/covid-world-scraper#egg=covid-wo
 ## Use
 
 The `covid-world-scraper` command-line tool lets you download the
-current data for a country by supplying one or
-more 3-letter ISO country codes.
+current data for a country by supplying one or more 3-letter [ISO country codes][].
+
+[ISO country codes]: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
 
 ```
 # Brazil, Germany, Pakistan
