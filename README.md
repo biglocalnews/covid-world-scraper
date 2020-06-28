@@ -7,15 +7,22 @@
 
 ## Overview
 
-This repo contains web scrapers for COVID-19 data
+This project provides a command-line tool for scraping COVID-19 data
 from countries around the world.
 
-These scrapers collect data for administrative units within countries
-(provinces, states, territories) for coronavirus cases and deaths.
+The scrapers target the subset of countries that offer coronavirus data at the level
+of administrative units (provinces, states, territories *within a country*).
+
+Organizations such as [Johns Hopkins University][] are a better resource for
+comprehensive country-wide figures.
+
+[Johns Hopkins University]: https://coronavirus.jhu.edu/data
 
 ## Install
 
 Download [Geckodriver](https://github.com/mozilla/geckodriver/releases) to a location on the PATH (or update PATH env variable to include it's location).
+
+Install the `covid-world-scraper` command-line tool.
 
 ```
 pip install git+https://github.com/biglocalnews/covid-world-scraper#egg=covid-world-scraper
@@ -23,9 +30,13 @@ pip install git+https://github.com/biglocalnews/covid-world-scraper#egg=covid-wo
 
 ## Use
 
+The `covid-world-scraper` command-line tool lets you download the
+current data for a country by supplying one or
+more 3-letter ISO country codes.
+
 ```
-# Provide one or more 3-letter ISO country codes to scrape
-covid-world-scraper pak deu bra # Pakistan, Germany Brazil
+# Brazil, Germany, Pakistan
+covid-world-scraper bra deu pak
 ```
 
 By default, data for each country is stored in `/tmp/covid-world-scraper`.
