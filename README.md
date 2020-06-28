@@ -50,6 +50,9 @@ UTC runtime of the scraper.
 Here's an example showing results for the Pakistan scraper following
 scrapes on two consecutive days in June 2020.
 
+> The types of `raw` files saved for a given country vary
+> widely and reflect the different ways each country posts it data.
+
 ```
 covid-world-scraper/pak
 ├── processed
