@@ -1,6 +1,6 @@
 # COVID World Scrapers
 
-- [Oveview](#overview)
+- [Overview](#overview)
 - [Install](#install)
 - [Use](#use)
 - [Data sources](#data-sources)
