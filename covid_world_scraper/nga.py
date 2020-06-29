@@ -26,13 +26,18 @@ class Nga(CountryScraper):
 
     def extract(self, source_file):
 
+        scrape_date = self.runtimestamp
+
         with open(source_file) as fh:
             soup = BeautifulSoup(fh.read(), 'html.parser')
             headers = [h.text for h in soup.table.thead.find_all('th')]
+            headers.extend(['date', 'scrape_date'])
             data = []
+
             tbody_rows = soup.table.tbody.find_all('tr')
             for tr in tbody_rows:
                 cells = [cell.text.strip() for cell in tr.find_all('td')]
+                cells.extend(['', scrape_date])
                 data.append(cells)
 
         outfile = self.processed_filepath_from_raw(source_file, 'csv')
