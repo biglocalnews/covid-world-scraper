@@ -36,6 +36,7 @@ class Pak(CountryScraper):
             date = driver.find_elements_by_xpath('/html/body/app-bootstrap/ng2-bootstrap/bootstrap/div/div/div/div/div[1]/div[2]/div/div[1]/div[1]/div[1]/div/lego-report/lego-canvas-container/div/file-drop-zone/span/content-section/canvas-component[20]/div/div/div[1]/div/div/lego-table/div/div[3]/div/div')[0].get_attribute('innerText')
             scrape_date = self.runtimestamp
             tables = driver.find_elements_by_css_selector('lego-table.table.ng-scope')
+            
             for tbl in tables:
                 text = tbl.text.strip().replace(',','')
                 if text.startswith('AJK'):
