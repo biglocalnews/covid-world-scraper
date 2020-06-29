@@ -64,9 +64,11 @@ class Deu(CountryScraper):
 
     
             for item in data_list:
+
                 item[1] = item[1].replace('.','')
                 item[1] = int(item[1])
                 item[2] = item[2].replace('+','')
+                item[2] = item[2].replace('*','')
                 item[2] = int(item[2])
                 item[3] = float(item[3])
                 item[4] = item[4].replace(',','.')
