@@ -67,19 +67,3 @@ covid-world-scraper/pak
     ├── 20200628T1705Z.png
     └── 20200628T1705Z.txt
 ```
-
-## Data sources
-
-- [Brazil](https://covid.saude.gov.br/)
-- [Germany](https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Fallzahlen.html)
-- [India](https://www.mohfw.gov.in/)
-- [Nigeria](https://covid19.ncdc.gov.ng/)
-- [Pakistan](http://covid.gov.pk/stats/pakistan)
-- [South Africa](https://sacoronavirus.co.za/category/press-releases-and-notices/)
-
-Countries that share PDFs:
-
-- [Indonesia](https://covid19.kemkes.go.id/category/situasi-infeksi-emerging/info-corona-virus/#.XuGkb2pKiL_)
-- [Mayanmar](https://mohs.gov.mm/page/9575)
-- [Russia](https://xn--80aesfpebagmfblc0a.xn--p1ai/info/ofdoc/reports/)
-- [Spain](https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov-China/situacionActual.htm)
