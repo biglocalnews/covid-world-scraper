@@ -36,7 +36,10 @@ class Nga(CountryScraper):
 
             tbody_rows = soup.table.tbody.find_all('tr')
             for tr in tbody_rows:
-                cells = [cell.text.strip() for cell in tr.find_all('td')]
+                cells = [
+                    cell.text.strip().replace(',','')
+                    for cell in tr.find_all('td')
+                ]
                 cells.extend(['', scrape_date])
                 data.append(cells)
 
