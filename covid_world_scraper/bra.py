@@ -48,17 +48,16 @@ class Bra(CountryScraper):
     def extract(self, raw_data_path):
 
         # start to pandas solution
-        df = pd.read_excel(raw_data_path, sheet_name=None)
-        df['Sheet 1'].to_csv('output.csv')
+        # df = pd.read_excel(raw_data_path, sheet_name=None)
+        # df['Sheet 1'].to_csv('output.csv')
 
-        # start to openpyxl solution 
-
-        # wb = openpyxl.load_workbook(raw_data_path)
+        #start to openpyxl solution 
+        wb = openpyxl.load_workbook(raw_data_path)[0]
         # sh = wb.get_active_sheet()
-        # with open('test.csv', 'wb') as my_file:
-        #     c = csv.writer(my_file)
-        #     for row in sh.rows:
-        #         c.writerow([cell.value for cell in row])
+        with open('test.csv', 'wb') as my_file:
+            c = csv.writer(my_file)
+            for row in wb.rows:
+                c.writerow([cell.value for cell in row])
 
     def ff_profile(self, download_dir):
         # Configure Firefox profile to avoid triggering pop-up
