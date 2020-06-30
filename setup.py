@@ -11,6 +11,7 @@ requirements = [
     'retrying',
     'selenium',
     'xlrd',
+    'openpyxl'
 ]
 
 test_requirements = [
