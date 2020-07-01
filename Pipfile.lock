@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "3524db350ccacb9b375347421e9357216513d3dc30689980e16e194f960c9887"
+            "sha256": "2718f5a37a3b92b148475c3d1ecfb0b99c194aa0a9843d1f26208da082822000"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -53,25 +53,12 @@
             "index": "pypi",
             "version": "==7.1.2"
         },
-        "et-xmlfile": {
-            "hashes": [
-                "sha256:614d9722d572f6246302c4491846d2c393c199cfa4edc9af593437691683335b"
-            ],
-            "version": "==1.0.1"
-        },
         "idna": {
             "hashes": [
                 "sha256:b307872f855b18632ce0c21c5e45be78c0ea7ae4c15c828c20788b26921eb3f6",
                 "sha256:b97d804b1e9b523befed77c48dacec60e6dcb0b5391d57af6a65a312a90648c0"
             ],
             "version": "==2.10"
-        },
-        "jdcal": {
-            "hashes": [
-                "sha256:1abf1305fce18b4e8aa248cf8fe0c56ce2032392bc64bbd61b5dff2a19ec8bba",
-                "sha256:472872e096eb8df219c23f2689fc336668bdb43d194094b5cc1707e1640acfc8"
-            ],
-            "version": "==1.4.1"
         },
         "numpy": {
             "hashes": [
@@ -103,13 +90,6 @@
                 "sha256:fa1fe75b4a9e18b66ae7f0b122543c42debcf800aaafa0212aaff3ad273c2596"
             ],
             "version": "==1.19.0"
-        },
-        "openpyxl": {
-            "hashes": [
-                "sha256:6e62f058d19b09b95d20ebfbfb04857ad08d0833190516c1660675f699c6186f"
-            ],
-            "index": "pypi",
-            "version": "==3.0.4"
         },
         "pandas": {
             "hashes": [
@@ -190,14 +170,6 @@
                 "sha256:88206b0eb87e6d677d424843ac5209e3fb9d0190d0ee169599165ec25e9d9115"
             ],
             "version": "==1.25.9"
-        },
-        "xlrd": {
-            "hashes": [
-                "sha256:546eb36cee8db40c3eaa46c351e67ffee6eeb5fa2650b71bc4c758a29a1b29b2",
-                "sha256:e551fb498759fa3a5384a94ccd4c3c02eb7c00ea424426e212ac0c57be9dfbde"
-            ],
-            "index": "pypi",
-            "version": "==1.2.0"
         }
     },
     "develop": {}

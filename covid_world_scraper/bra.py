@@ -35,7 +35,6 @@ class Bra(CountryScraper):
             driver.get(url)
             time.sleep(10)
             date = driver.find_elements_by_xpath('/html/body/app-root/ion-app/ion-router-outlet/app-home/ion-content/div[1]/div[1]/div[3]/span')[0].get_attribute('innerText')
-          
             buttons = driver.find_elements_by_tag_name('ion-button')
             for button in buttons:
                 if button.text.lower().strip() == 'arquivo csv':
@@ -47,7 +46,7 @@ class Bra(CountryScraper):
                     return {
                         'cached_text_path': standardized_name,
                         'date': date,
-                                    }
+                    }
         finally:
             driver.quit()
 
@@ -64,6 +63,7 @@ class Bra(CountryScraper):
         df['Sheet 1']['date'] = date
         df['Sheet 1']['scrape_date'] = self.runtimestamp
         df['Sheet 1'].to_csv(outfile_path)
+        logger.info("Created {}".format(outfile_path))
 
         return outfile_path
 
