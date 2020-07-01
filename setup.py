@@ -10,8 +10,6 @@ requirements = [
     'requests',
     'retrying',
     'selenium',
-    'xlrd',
-    'openpyxl'
 ]
 
 test_requirements = [

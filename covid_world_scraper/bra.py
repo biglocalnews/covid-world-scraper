@@ -2,7 +2,6 @@ import csv
 import logging
 import os
 import time
-import openpyxl
 from pathlib import Path
 
 from retrying import retry
