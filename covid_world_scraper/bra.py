@@ -1,6 +1,7 @@
 import csv
 import logging
 import os
+import time
 import openpyxl
 from pathlib import Path
 
@@ -33,6 +34,9 @@ class Bra(CountryScraper):
         )
         try:
             driver.get(url)
+            time.sleep(10)
+            date = driver.find_elements_by_xpath('/html/body/app-root/ion-app/ion-router-outlet/app-home/ion-content/div[1]/div[1]/div[3]/span')[0].get_attribute('innerText')
+          
             buttons = driver.find_elements_by_tag_name('ion-button')
             for button in buttons:
                 if button.text.lower().strip() == 'arquivo csv':
@@ -41,23 +45,28 @@ class Bra(CountryScraper):
                     logger.info('Downloaded {}'.format(target_file))
                     standardized_name = self._rename_xlxs(target_file)
                     logger.info('Renamed file to {}'.format(standardized_name))
-                    return standardized_name
+                    return {
+                        'cached_text_path': standardized_name,
+                        'date': date,
+                                    }
         finally:
             driver.quit()
 
-    def extract(self, raw_data_path):
+    def extract(self, payload):
+
+        raw_data_path = payload['cached_text_path']
+        date = payload['date']
 
         # start to pandas solution
-        # df = pd.read_excel(raw_data_path, sheet_name=None)
-        # df['Sheet 1'].to_csv('output.csv')
+        basename = raw_data_path.split('/')[-1].replace('xlsx','csv')
+        outfile_path = str(self.processed_dir.joinpath(basename))
 
-        #start to openpyxl solution 
-        wb = openpyxl.load_workbook(raw_data_path)[0]
-        # sh = wb.get_active_sheet()
-        with open('test.csv', 'wb') as my_file:
-            c = csv.writer(my_file)
-            for row in wb.rows:
-                c.writerow([cell.value for cell in row])
+        df = pd.read_excel(raw_data_path, sheet_name=None)
+        df['Sheet 1']['date'] = date
+        df['Sheet 1']['scrape_date'] = self.runtimestamp
+        df['Sheet 1'].to_csv(outfile_path)
+
+        return outfile_path
 
     def ff_profile(self, download_dir):
         # Configure Firefox profile to avoid triggering pop-up
@@ -101,6 +110,5 @@ class Bra(CountryScraper):
         new_name = original.parent.joinpath("{}.xlsx".format(self.runtimestamp))
         original.rename(new_name)
         return str(new_name)
-
 
     
