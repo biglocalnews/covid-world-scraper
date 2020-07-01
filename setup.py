@@ -10,7 +10,6 @@ requirements = [
     'requests',
     'retrying',
     'selenium',
-    'xlrd',
 ]
 
 test_requirements = [

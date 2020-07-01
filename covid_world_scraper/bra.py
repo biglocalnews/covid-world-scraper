@@ -1,7 +1,7 @@
 import csv
 import logging
 import os
-import xlrd
+import time
 from pathlib import Path
 
 from retrying import retry
@@ -10,13 +10,9 @@ from selenium.webdriver.firefox.options import Options
 
 from .country_scraper import CountryScraper
 
+import pandas as pd
 
 logger = logging.getLogger(__name__)
-
-
-class DownloadInProgressError(Exception):
-    pass
-
 
 class Bra(CountryScraper):
 
@@ -37,6 +33,8 @@ class Bra(CountryScraper):
         )
         try:
             driver.get(url)
+            time.sleep(10)
+            date = driver.find_elements_by_xpath('/html/body/app-root/ion-app/ion-router-outlet/app-home/ion-content/div[1]/div[1]/div[3]/span')[0].get_attribute('innerText')
             buttons = driver.find_elements_by_tag_name('ion-button')
             for button in buttons:
                 if button.text.lower().strip() == 'arquivo csv':
@@ -45,24 +43,30 @@ class Bra(CountryScraper):
                     logger.info('Downloaded {}'.format(target_file))
                     standardized_name = self._rename_xlxs(target_file)
                     logger.info('Renamed file to {}'.format(standardized_name))
-                    return standardized_name
+                    return {
+                        'cached_text_path': standardized_name,
+                        'date': date,
+                    }
         finally:
             driver.quit()
 
-    def extract(self, raw_data_path):
-        logger.info('Extracting data from {}'.format(raw_data_path))
-        brazil_raw_data = xlrd.open_workbook(raw_data_path)
-        sheet = brazil_raw_data.sheet_by_index(0)
+    def extract(self, payload):
+
+        raw_data_path = payload['cached_text_path']
+        date = payload['date']
+
+        # start to pandas solution
         basename = raw_data_path.split('/')[-1].replace('xlsx','csv')
         outfile_path = str(self.processed_dir.joinpath(basename))
-        outfile = open(outfile_path, 'w')
-        csv_written = csv.writer(outfile)
-        for row in range(sheet.nrows):
-            csv_written.writerow(sheet.row_values(row))
-        outfile.close()
-        logger.info('Created {}'.format(outfile_path))
+
+        df = pd.read_excel(raw_data_path, sheet_name=None)
+        df['Sheet 1']['date'] = date
+        df['Sheet 1']['scrape_date'] = self.runtimestamp
+        df['Sheet 1'].to_csv(outfile_path)
+        logger.info("Created {}".format(outfile_path))
+
         return outfile_path
-        
+
     def ff_profile(self, download_dir):
         # Configure Firefox profile to avoid triggering pop-up
         # that requests permission to download, per Selenium docs:
@@ -105,3 +109,5 @@ class Bra(CountryScraper):
         new_name = original.parent.joinpath("{}.xlsx".format(self.runtimestamp))
         original.rename(new_name)
         return str(new_name)
+
+    
