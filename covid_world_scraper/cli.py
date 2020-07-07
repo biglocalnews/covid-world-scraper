@@ -1,15 +1,26 @@
 import importlib
 import logging
+import pathlib
 
 import click
 
-
+DEFAULT_CACHE_DIR=str(
+    pathlib.Path\
+        .home()\
+        .joinpath('covid-world-scraper-data')
+)
 @click.command(
     help="3-letter country codes for one or more countries. Multiple abbreviations can be "
 )
 @click.argument('countries', nargs=-1)
 @click.option('--all', is_flag=True, help="Scrape all countries")
-def cli(countries, all):
+@click.option(
+    '--cache-dir',
+    default=DEFAULT_CACHE_DIR,
+    show_default=DEFAULT_CACHE_DIR,
+    help="Location to store scraped data files."
+)
+def cli(countries, all, cache_dir):
     """Scrape data for one or more countries."""
     logging.basicConfig(
         level=logging.INFO,
@@ -36,4 +47,4 @@ def cli(countries, all):
             except (ModuleNotFoundError, ImportError, AttributeError):
                 click.echo("Unable to find scraper {}".format(kls_name))
                 return 1
-            ScraperKls().run()
+            ScraperKls(cache_dir).run()
