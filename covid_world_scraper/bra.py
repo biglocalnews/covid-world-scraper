@@ -25,7 +25,7 @@ class Bra(CountryScraper):
     def fetch(self):
         url = 'https://covid.saude.gov.br/'
         opts = Options()
-        opts.headless = True
+        opts.headless = self.headless_status
         data = []
         driver = webdriver.Firefox(
             firefox_profile=self.ff_profile(str(self.raw_dir)),

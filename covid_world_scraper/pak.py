@@ -24,7 +24,7 @@ class Pak(CountryScraper):
     def fetch(self):
         url = "https://datastudio.google.com/embed/reporting/1PLVi5amcc_R5Gh928gTE8-8r8-fLXJQF/page/R24IB"
         opts = Options()
-        opts.headless = True
+        opts.headless = self.headless_status
         data = []
         try:
             driver = webdriver.Firefox(options=opts)

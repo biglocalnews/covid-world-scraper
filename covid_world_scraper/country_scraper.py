@@ -27,8 +27,12 @@ class CountryScraper:
                 pass
     """
 
-    def __init__(self, cache_dir='/tmp/covid-world-scraper'):
+    def __init__(self,
+            cache_dir='/tmp/covid-world-scraper',
+            headless_status=True
+        ):
         self.runtime = self._set_runtime()
+        self.headless_status = headless_status
         self.cache_dir = Path(
             cache_dir,
             self._klass_name.lower()

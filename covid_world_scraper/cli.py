@@ -20,7 +20,13 @@ DEFAULT_CACHE_DIR=str(
     show_default=DEFAULT_CACHE_DIR,
     help="Location to store scraped data files."
 )
-def cli(countries, all, cache_dir):
+@click.option(
+    '--headless/--no-headless',
+    default=True,
+    show_default=True,
+    help="Enable/disable headless mode for Selenium-based browsers."
+)
+def cli(countries, all, cache_dir, headless):
     """Scrape data for one or more countries."""
     logging.basicConfig(
         level=logging.INFO,
@@ -47,4 +53,4 @@ def cli(countries, all, cache_dir):
             except (ModuleNotFoundError, ImportError, AttributeError):
                 click.echo("Unable to find scraper {}".format(kls_name))
                 return 1
-            ScraperKls(cache_dir).run()
+            ScraperKls(cache_dir, headless_status=headless).run()
