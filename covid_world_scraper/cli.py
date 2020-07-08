@@ -9,6 +9,8 @@ DEFAULT_CACHE_DIR=str(
         .home()\
         .joinpath('covid-world-scraper-data')
 )
+DEFAULT_LOG_FILE=str(pathlib.Path(DEFAULT_CACHE_DIR).joinpath('covid-world-scraper.log'))
+
 @click.command(
     help="3-letter country codes for one or more countries. Multiple abbreviations can be "
 )
@@ -32,7 +34,7 @@ def cli(countries, all, cache_dir, headless):
         level=logging.INFO,
         format='%(asctime)s - %(name)-12s - %(message)s',
         datefmt='%m-%d %H:%M',
-        filename='/tmp/covid-world-scraper.log',
+        filename=DEFAULT_LOG_FILE,
         filemode='a'
     )
     console = logging.StreamHandler()
