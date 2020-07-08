@@ -4,6 +4,7 @@
 - [Install](#install)
 - [Use](#use)
 - [Data sources](#data-sources)
+- [Credits](#credits)
 
 ## Overview
 
