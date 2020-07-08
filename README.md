@@ -21,7 +21,7 @@ comprehensive country-wide figures.
 
 ## Install
 
-Download [Geckodriver](https://github.com/mozilla/geckodriver/releases) to a location on the PATH (or update PATH env variable to include it's location).
+Download [Geckodriver](https://github.com/mozilla/geckodriver/releases) to a location on the PATH (or update PATH env variable to include its location).
 
 Install the `covid-world-scraper` command-line tool.
 
