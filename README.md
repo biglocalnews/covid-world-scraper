@@ -36,11 +36,23 @@ current data for a country by supplying one or more 3-letter [ISO country codes]
 [ISO country codes]: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
 
 ```
+# Run all scrapers at once
+covid-world-scraper --all
+
 # Brazil, Germany, Pakistan
 covid-world-scraper bra deu pak
+
+# To see other available options
+covid-world-scraper --help
 ```
 
-By default, data for each country is stored in `/tmp/covid-world-scraper`.
+By default, data for each country is written to a `covid-world-scraper`
+in a user's home directory. This location can be updated using the
+`--cache-dir` flag:
+
+```
+covid-world-scraper --cache-dir=/tmp/covid-world-scraper bra
+```
 
 For each country, scrapers download and store one or more file artifacts in a `raw`
 directory. These files may be screenshots, HTML, Excel files, etc. Data
@@ -67,3 +79,7 @@ covid-world-scraper/pak
     ├── 20200628T1705Z.png
     └── 20200628T1705Z.txt
 ```
+
+## Credits
+
+This project relies on country code data from the [GeoNames](https://www.geonames.org/) project.
