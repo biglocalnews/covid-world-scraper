@@ -7,6 +7,7 @@ Official page for Pakistan COVID figures:
 import csv
 import logging
 import os
+import re
 import time
 
 from selenium import webdriver
@@ -29,16 +30,18 @@ class Pak(CountryScraper):
         try:
             driver = webdriver.Firefox(options=opts)
             driver.get(url)
-            # Gross, but works
-            time.sleep(20)
+            #TODO: Replace with a wait statement that
+            # ensures timestamp has appeared on page
+            time.sleep(30)
             driver.get_screenshot_as_file(self._screenshot_path)
             logger.info("Saved screenshot of web page to {}".format(self._screenshot_path))
-            date = driver.find_elements_by_xpath('/html/body/app-bootstrap/ng2-bootstrap/bootstrap/div/div/div/div/div[1]/div[2]/div/div[1]/div[1]/div[1]/div/lego-report/lego-canvas-container/div/file-drop-zone/span/content-section/canvas-component[20]/div/div/div[1]/div/div/lego-table/div/div[3]/div/div')[0].get_attribute('innerText')
             scrape_date = self.runtimestamp
+            date = ''
             tables = driver.find_elements_by_css_selector('lego-table.table.ng-scope')
-            
             for tbl in tables:
                 text = tbl.text.strip().replace(',','')
+                if text.startswith('Last updated on'):
+                    date = text.replace('\n',' ')
                 if text.startswith('AJK'):
                     inner_html = tbl.get_attribute('innerHTML')
                     inner_text = tbl.get_attribute('innerText')
