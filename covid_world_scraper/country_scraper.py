@@ -7,6 +7,8 @@ from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
+from .country_codes import COUNTRY_CODES
+
 
 class CountryScraper:
     """Base class for country-specific scrapers.
@@ -39,6 +41,15 @@ class CountryScraper:
         )
         self.raw_dir = self.cache_dir.joinpath('raw')
         self.processed_dir = self.cache_dir.joinpath('processed')
+
+    def __str__(self):
+        return '{} ({})'.format(
+            self.country_code,
+            self.country
+        )
+
+    def __repr__(self):
+        return '<CountryScraper: {}>'.format(self.__str__())
 
     def run(self):
         logger.info("START SCRAPE - {}".format(self._klass_name))
@@ -128,6 +139,14 @@ class CountryScraper:
                 writer.writerow(headers)
             writer.writerows(data)
         logger.info("Saved extracted data to {}".format(outfile))
+
+    @property
+    def country_code(self):
+        return self._klass_name.upper()
+
+    @property
+    def country(self):
+        return COUNTRY_CODES[self.country_code]
 
     def _set_runtime(self):
         return datetime.utcnow()

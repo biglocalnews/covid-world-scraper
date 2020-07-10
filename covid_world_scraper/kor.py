@@ -66,7 +66,7 @@ class Kor(CountryScraper):
         return outfile
 
     def _parse_date(self, date):
-        pattern = '.+\s(\d+)(am|pm)\s+([\d.]+)'
+        pattern = r'.+\s(\d+)(am|pm)\s+([\d.]+)'
         hour, meridian, month_day = re.match(
             pattern, date.strip()
         ).groups()
