@@ -47,6 +47,8 @@ from covid_world_scraper.constants import (
 )
 def cli(countries, all, cache_dir, list_scrapers, log_file, headless):
     """Scrape data for one or more countries."""
+    # Ensure cache directory exists
+    Path(cache_dir).mkdir(parents=True, exist_ok=True)
     logging.basicConfig(
         level=logging.INFO,
         format='%(asctime)s - %(name)-12s - %(message)s',
@@ -59,8 +61,6 @@ def cli(countries, all, cache_dir, list_scrapers, log_file, headless):
     formatter = logging.Formatter('%(name)-12s - %(message)s')
     console.setFormatter(formatter)
     logging.getLogger('').addHandler(console)
-    # Ensure cache directory
-    Path(cache_dir).mkdir(parents=True, exist_ok=True)
     runner = Runner()
     if list_scrapers:
         click.echo('Available country scrapers:')
