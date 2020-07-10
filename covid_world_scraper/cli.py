@@ -1,4 +1,5 @@
 import logging
+from pathlib import Path
 
 import click
 
@@ -58,6 +59,8 @@ def cli(countries, all, cache_dir, list_scrapers, log_file, headless):
     formatter = logging.Formatter('%(name)-12s - %(message)s')
     console.setFormatter(formatter)
     logging.getLogger('').addHandler(console)
+    # Ensure cache directory
+    Path(cache_dir).mkdir(parents=True, exist_ok=True)
     runner = Runner()
     if list_scrapers:
         click.echo('Available country scrapers:')
