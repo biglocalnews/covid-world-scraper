@@ -56,7 +56,7 @@ in a user's home directory. This location can be updated using the
 `--cache-dir` flag:
 
 ```
-covid-world-scraper --cache-dir=/tmp/covid-world-scraper bra
+covid-world-scraper --cache-dir=/tmp/some-other-name bra
 ```
 
 For each country, scrapers download and store one or more file artifacts in a `raw`
