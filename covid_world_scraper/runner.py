@@ -39,6 +39,14 @@ class Runner:
             scraper_objs.append(scraper)
         return scraper_objs
 
+    def list_countries(self):
+        """
+        List available country scrapers.
+
+        Returns: List of country codes and names.
+        """
+        return [str(ScraperKls()) for ScraperKls in self.country_scrapers()]
+
     def country_scrapers(self, filter=[]):
         """
         Return scraper classes for all available countries.

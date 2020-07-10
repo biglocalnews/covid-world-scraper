@@ -100,3 +100,13 @@ def test_write_csv_with_headers(cache_root):
     actual = pak.write_csv(data, outfile, headers=headers)
     expected = "col1,col2\nfoo,bar\n"
     assert file_contents(outfile) == expected
+
+def test_country_class_attribute():
+    scraper = Pak()
+    assert scraper.country_code == 'PAK'
+    assert scraper.country == 'Pakistan'
+
+def test_str_rep():
+    scraper = Pak()
+    assert str(scraper) == 'PAK (Pakistan)'
+    assert scraper.__repr__() == '<CountryScraper: PAK (Pakistan)>'

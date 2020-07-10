@@ -48,3 +48,8 @@ def test_run_is_called_on_country_scrapers():
         scrapers = r.run()
         for scraper in scrapers:
             scraper.run.assert_called_once()
+
+def test_list_countries():
+    r = Runner()
+    countries = r.list_countries()
+    assert 'PAK (Pakistan)' in countries
