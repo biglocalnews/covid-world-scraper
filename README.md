@@ -37,17 +37,21 @@ current data for a country by supplying one or more 3-letter [ISO country codes]
 [ISO country codes]: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
 
 ```
+# List available country scrapers
+covid-world-scraper -l
+
 # Run all scrapers at once, sequentially
 covid-world-scraper --all
 
 # Run selected countries (Brazil, Germany, Pakistan)
+# by passing in one or more 3-letter ISO country codes
 covid-world-scraper bra deu pak
 
 # To see other available CLI options
 covid-world-scraper --help
 ```
 
-By default, data for each country is written to a `covid-world-scraper` folder
+By default, data for each country is written to a `covid-world-scraper-data` folder
 in a user's home directory. This location can be updated using the
 `--cache-dir` flag:
 
@@ -68,7 +72,7 @@ on two consecutive days in June 2020.
 > widely and reflect the different ways each country posts it data.
 
 ```
-covid-world-scraper/pak
+covid-world-scraper-data/pak
 ├── processed
 │   ├── 20200627T0126Z.csv
 │   └── 20200628T1705Z.csv
