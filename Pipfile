@@ -14,6 +14,7 @@ requests = "*"
 pandas = "*"
 click = "*"
 retrying = "*"
+xlrd = "*"
 
 [requires]
 python_version = "3.7"
