@@ -6,6 +6,7 @@ import covid_world_scraper
 from .constants import DEFAULT_CACHE_DIR
 from .country_codes import COUNTRY_CODES
 
+from .alerts import SlackAlertManager
 
 logger = logging.getLogger(__name__)
 
@@ -21,6 +22,9 @@ class Runner:
 
     country_codes = COUNTRY_CODES
 
+    def __init__(self, alert_manager=None):
+        self.alert_manager = alert_manager
+
     def run(self, cache_dir=DEFAULT_CACHE_DIR, headless_status=True, filter=[]):
         """
         Run country scrapers.
@@ -30,14 +34,41 @@ class Runner:
         headless_status -- Whether or not to run headless (default: True)
         filter -- List of 3-letter country codes that limits countries to be scraped.
 
-        Returns: None
+        Returns: List of CountryScrapers
         """.format(DEFAULT_CACHE_DIR)
         scraper_objs = []
         for ScraperKls in self.country_scrapers(filter=filter):
-            scraper = ScraperKls(cache_dir, headless_status=headless_status)
-            scraper.run()
-            scraper_objs.append(scraper)
+            try:
+                scraper = ScraperKls(cache_dir, headless_status=headless_status)
+                scraper.run()
+                scraper_objs.append(scraper)
+            except Exception as e:
+                message = str(e)
+                level = 'ERROR'
+                if self.alert_manager:
+                    self.alert_manager.add(message, level)
+                logger.error(message)
+        # Add generic alert message listing countries
+        # scraped successfully
+        success_msg = self._prep_success_message(scraper_objs)
+        if self.alert_manager:
+            self.alert_manager.insert(0, success_msg, 'INFO')
+        logger.info(success_msg)
         return scraper_objs
+
+    def _prep_success_message(self, scraper_objs):
+        count = len(scraper_objs)
+        if count > 0:
+            names = ', '.join([
+                str(s) for s in scraper_objs
+            ])
+            message = "{} scraper(s) ran successfully: {}".format(count, names)
+        else:
+            message = "Zero scrapers ran successfully"
+        return message
+
+    def send_alerts(self):
+        self.alert_manager.send()
 
     def list_countries(self):
         """

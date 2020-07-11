@@ -16,3 +16,6 @@ def relative_year(month, day):
 
 def today():
     return datetime.utcnow()
+
+def utc_now_timestamp():
+    return datetime.utcnow().strftime("%Y%m%dT%H%MZ")
