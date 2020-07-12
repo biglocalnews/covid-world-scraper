@@ -1,4 +1,6 @@
 import logging
+import os
+import traceback
 from pathlib import Path
 
 import click
@@ -8,6 +10,7 @@ from covid_world_scraper.constants import (
     DEFAULT_CACHE_DIR,
     DEFAULT_LOG_FILE,
 )
+from covid_world_scraper.alerts import SlackAlertManager
 
 
 
@@ -20,6 +23,11 @@ from covid_world_scraper.constants import (
     '--all',
     is_flag=True,
     help="Scrape all available countries"
+)
+@click.option(
+    '--alert',
+    is_flag=True,
+    help="Send scraper status alerts to Slack."
 )
 @click.option(
     '--cache-dir',
@@ -45,7 +53,8 @@ from covid_world_scraper.constants import (
     show_default="--headless",
     help="Enable/disable headless mode for Selenium-based browsers."
 )
-def cli(countries, all, cache_dir, list_scrapers, log_file, headless):
+def cli(countries, all, alert, cache_dir,
+        list_scrapers, log_file, headless):
     """Scrape data for one or more countries."""
     # Ensure cache directory exists
     Path(cache_dir).mkdir(parents=True, exist_ok=True)
@@ -61,7 +70,26 @@ def cli(countries, all, cache_dir, list_scrapers, log_file, headless):
     formatter = logging.Formatter('%(name)-12s - %(message)s')
     console.setFormatter(formatter)
     logging.getLogger('').addHandler(console)
-    runner = Runner()
+    logger = logging.getLogger(__name__)
+
+    # Set up alert manager
+    alert_manager=None
+    if alert:
+        try:
+            api_key = os.environ['COVID_WORLD_SLACK_API_KEY']
+            channel = os.environ['COVID_WORLD_SLACK_CHANNEL']
+            alert_msg = "Slack alerts will be sent to #{}.".format(channel)
+            alert_manager = SlackAlertManager(api_key, channel)
+        except KeyError:
+            alert_msg = "WARNING - Slack alerts will not be sent.\n" + \
+                "Please ensure you've configured the below environment variables:\n" + \
+                "COVID_WORLD_SLACK_API_KEY=YOUR_API_KEY\n" + \
+                "COVID_WORLD_SLACK_CHANNEL=channel-name\n\n"
+        finally:
+            logger.warning(alert_msg)
+
+    runner = Runner(alert_manager=alert_manager)
+
     if list_scrapers:
         click.echo('Available country scrapers:')
         for country in runner.list_countries():
@@ -73,4 +101,11 @@ def cli(countries, all, cache_dir, list_scrapers, log_file, headless):
             'headless_status': headless,
             'filter': countries,
         }
-        runner.run(**kwargs)
+        try:
+            runner.run(**kwargs)
+            if alert and alert_manager:
+                runner.send_alerts()
+        except Exception as e:
+            traceback_str = ''.join(traceback.format_tb(e.__traceback__)).replace('\n', ' ')
+            logger.error("ERROR: A fatal error occurred while running scrapers or sending alerts!!!")
+            logger.error(traceback_str)

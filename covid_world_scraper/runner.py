@@ -60,7 +60,7 @@ class Runner:
         count = len(scraper_objs)
         if count > 0:
             names = ', '.join([
-                str(s) for s in scraper_objs
+                str(s.country_code) for s in scraper_objs
             ])
             message = "{} scraper(s) ran successfully: {}".format(count, names)
         else:
