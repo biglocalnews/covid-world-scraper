@@ -6,9 +6,9 @@ import covid_world_scraper
 from .constants import DEFAULT_CACHE_DIR
 from .country_codes import COUNTRY_CODES
 
-from .alerts import SlackAlertManager
 
 logger = logging.getLogger(__name__)
+
 
 class CountryScraperError(Exception): pass
 
