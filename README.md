@@ -4,6 +4,7 @@
 - [Install](#install)
 - [Use](#use)
 - [Data sources](#data-sources)
+- [Alerts](#alerts)
 - [Credits](#credits)
 
 ## Overview
@@ -83,6 +84,32 @@ covid-world-scraper-data/pak
     ├── 20200628T1705Z.html
     ├── 20200628T1705Z.png
     └── 20200628T1705Z.txt
+```
+
+## Alerts
+
+The scraper can send status alerts about scrapers to Slack.
+This requires:
+
+- Creating a Slack app and integrating it into a workspace
+- Obtaining a Slack App API token
+- Creating environment variables for the API key and target channel
+
+> See the [Python slackclient docs](https://github.com/slackapi/python-slackclient) for
+> details on setting up a Slack app, integrating with a workspace, and obtaining an API key.
+
+```
+# e.g., in ~/.bash_profile or ~/.bashrc
+export COVID_WORLD_SLACK_API_KEY=YOUR_API_KEY
+export COVID_WORLD_SLACK_CHANNEL=channel-name
+```
+
+After completing the above steps, use the `--alert`
+command-line option to send Slack alerts when scrapers are run:
+
+```
+# Scrape all countries and send alerts to Slack
+covid-world-scraper --alert --all
 ```
 
 ## Credits
