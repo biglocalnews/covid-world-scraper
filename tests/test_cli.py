@@ -1,5 +1,5 @@
 import logging
-from unittest.mock import patch, DEFAULT
+from unittest.mock import patch
 
 import pytest
 from pathlib import Path
