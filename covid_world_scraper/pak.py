@@ -27,8 +27,8 @@ class Pak(CountryScraper):
         opts = Options()
         opts.headless = self.headless_status
         data = []
+        driver = webdriver.Firefox(options=opts)
         try:
-            driver = webdriver.Firefox(options=opts)
             driver.get(url)
             #TODO: Replace with a wait statement that
             # ensures timestamp has appeared on page
