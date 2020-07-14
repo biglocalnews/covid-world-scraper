@@ -18,7 +18,7 @@ class Bra(CountryScraper):
 
     def pre_process(self):
         # Remove any old non-standard and/or partial files
-        previous = self.raw_dir.glob("HIST*")
+        previous = self.raw_dir.glob("*PAINEL_COVID*")
         for p in previous:
             p.unlink()
 
@@ -94,7 +94,7 @@ class Bra(CountryScraper):
         HIST_PAINEL_COVIDBR_21jun2020.xlsx
         HIST_PAINEL_COVIDBR_21jun2020.xlsx.part
         """
-        target_files = list(download_dir.glob("HIST_PAINEL_COVIDBR*"))
+        target_files = list(download_dir.glob("*PAINEL_COVIDBR*"))
         if len(target_files) == 1 and str(target_files[0]).endswith('.xlsx'):
             logger.info("Download complete")
             return str(target_files[0])
@@ -110,4 +110,3 @@ class Bra(CountryScraper):
         original.rename(new_name)
         return str(new_name)
 
-    
