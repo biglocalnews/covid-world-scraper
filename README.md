@@ -22,9 +22,9 @@ comprehensive country-wide figures.
 
 ## Install
 
-Download [Geckodriver](https://github.com/mozilla/geckodriver/releases) to a location on the PATH (or update PATH env variable to include its location).
-
-Install the `covid-world-scraper` command-line tool.
+* Install a recent version of Firefox.
+* Download and unpack [Geckodriver](https://github.com/mozilla/geckodriver/releases) to a location on the PATH (or update PATH env variable to include its location).
+* Install the `covid-world-scraper` command-line tool:
 
 ```
 pip install git+https://github.com/biglocalnews/covid-world-scraper#egg=covid-world-scraper
