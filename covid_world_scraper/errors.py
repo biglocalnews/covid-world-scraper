@@ -1,0 +1,2 @@
+
+class DownloadInProgressError(Exception): pass

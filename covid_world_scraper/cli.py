@@ -106,6 +106,6 @@ def cli(countries, all, alert, cache_dir,
             if alert and alert_manager:
                 runner.send_alerts()
         except Exception as e:
-            traceback_str = ''.join(traceback.format_tb(e.__traceback__)).replace('\n', ' ')
+            traceback_str = ''.join(traceback.format_tb(e.__traceback__))
             logger.error("ERROR: A fatal error occurred while running scrapers or sending alerts!!!")
             logger.error(traceback_str)

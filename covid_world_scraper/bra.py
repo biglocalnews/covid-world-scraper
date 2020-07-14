@@ -1,6 +1,6 @@
-import csv
 import logging
-import os
+import shutil
+import tempfile
 import time
 from pathlib import Path
 
@@ -9,16 +9,21 @@ from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 
 from .country_scraper import CountryScraper
+from .errors import DownloadInProgressError
 
 import pandas as pd
 
 logger = logging.getLogger(__name__)
 
+
 class Bra(CountryScraper):
+
+    temp_dir = Path(tempfile.gettempdir()).joinpath('covid-world-scraper')
 
     def pre_process(self):
         # Remove any old non-standard and/or partial files
-        previous = self.raw_dir.glob("*PAINEL_COVID*")
+        self.temp_dir.mkdir(parents=True, exist_ok=True)
+        previous = self.temp_dir.glob("*PAINEL_COVID*")
         for p in previous:
             p.unlink()
 
@@ -26,9 +31,8 @@ class Bra(CountryScraper):
         url = 'https://covid.saude.gov.br/'
         opts = Options()
         opts.headless = self.headless_status
-        data = []
         driver = webdriver.Firefox(
-            firefox_profile=self.ff_profile(str(self.raw_dir)),
+            firefox_profile=self.ff_profile(str(self.temp_dir)),
             options=opts
         )
         try:
@@ -39,24 +43,26 @@ class Bra(CountryScraper):
             for button in buttons:
                 if button.text.lower().strip() == 'arquivo csv':
                     button.click()
-                    target_file = self._get_file_name(self.raw_dir)
+                    target_file = self._get_file_name(self.temp_dir)
                     logger.info('Downloaded {}'.format(target_file))
                     standardized_name = self._rename_xlxs(target_file)
                     logger.info('Renamed file to {}'.format(standardized_name))
+                    final_outfile = self._transfer_temp_file_to_raw_dir(standardized_name)
+                    logger.info('Copied {} to {}'.format(standardized_name, final_outfile))
                     return {
-                        'cached_text_path': standardized_name,
+                        'cached_text_path': final_outfile,
+                        'temp_source_file': standardized_name,
                         'date': date,
                     }
         finally:
             driver.quit()
 
     def extract(self, payload):
-
-        raw_data_path = payload['cached_text_path']
+        raw_data_path = payload['temp_source_file']
         date = payload['date']
 
         # start to pandas solution
-        basename = raw_data_path.split('/')[-1].replace('xlsx','csv')
+        basename = raw_data_path.split('/')[-1].replace('xlsx', 'csv')
         outfile_path = str(self.processed_dir.joinpath(basename))
 
         df = pd.read_excel(raw_data_path, sheet_name=None)
@@ -66,6 +72,12 @@ class Bra(CountryScraper):
         logger.info("Created {}".format(outfile_path))
 
         return outfile_path
+
+    def post_process(self):
+        # Clobber all tempfiles from this or earlier runs
+        previous = self.temp_dir.glob("*.xlsx")
+        for p in previous:
+            p.unlink()
 
     def ff_profile(self, download_dir):
         # Configure Firefox profile to avoid triggering pop-up
@@ -89,10 +101,10 @@ class Bra(CountryScraper):
     )
     def _get_file_name(self, download_dir):
         """
-        The file names below are examples of the raw data naming convention. 
+        The file names below are examples of the raw data naming convention.
 
-        HIST_PAINEL_COVIDBR_21jun2020.xlsx
-        HIST_PAINEL_COVIDBR_21jun2020.xlsx.part
+        *_PAINEL_COVIDBR_21jun2020.xlsx
+        *_PAINEL_COVIDBR_21jun2020.xlsx.part
         """
         target_files = list(download_dir.glob("*PAINEL_COVIDBR*"))
         if len(target_files) == 1 and str(target_files[0]).endswith('.xlsx'):
@@ -110,3 +122,11 @@ class Bra(CountryScraper):
         original.rename(new_name)
         return str(new_name)
 
+    def _transfer_temp_file_to_raw_dir(self, source_path):
+        # File transfer is necessary to work around lack of support
+        # for mv operations on a gcsfuse-mounted Google Cloud Storage
+        # bucket.
+        source = Path(source_path)
+        dest = str(self.raw_dir.joinpath(source.name))
+        shutil.copy(str(source_path), dest)
+        return dest
