@@ -61,7 +61,7 @@ class AlertMessage:
 
     @property
     def msg(self):
-        return "{} - {} - {}".format(
+        return "covid-world-scraper ({} - {}) {}".format(
             self.timestamp,
             self.level,
             self._msg
