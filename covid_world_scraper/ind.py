@@ -40,7 +40,11 @@ class Ind(CountryScraper):
                 .replace('\t', '')\
                 .strip()
             scrape_date = self.runtimestamp
-            tbody_rows = soup.table.tbody.find_all('tr')
+            try:
+                tbody_rows = soup.table.tbody.find_all('tr')
+            except AttributeError:
+                # HACK due to apparent change in HTML table structure around July 27, 2020
+                tbody_rows = self._extract_tbody_rows(soup)
             for tr in tbody_rows:
                 cells = [cell.text.strip() for cell in tr.find_all('td')]
                 if self._is_data_row(cells):
@@ -57,6 +61,12 @@ class Ind(CountryScraper):
         merged_data.extend(data)
         self.write_csv(merged_data, outfile)
         return outfile
+
+    def _extract_tbody_rows(self, soup):
+        # Transform into table row instances and return
+        raw_text = soup.table.contents[3].replace('\n\t', '')
+        soup = BeautifulSoup(raw_text, 'html.parser')
+        return soup.find_all('tr')
 
     def _is_data_row(self, row):
         status = False
