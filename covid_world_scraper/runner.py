@@ -1,6 +1,7 @@
 import importlib
 import logging
 import pkgutil
+import traceback
 
 import covid_world_scraper
 from .constants import DEFAULT_CACHE_DIR
@@ -43,7 +44,7 @@ class Runner:
                 scraper.run()
                 scraper_objs.append(scraper)
             except Exception as e:
-                message = str(e)
+                message = ''.join(traceback.format_tb(e.__traceback__))
                 level = 'ERROR'
                 if self.alert_manager:
                     self.alert_manager.add(message, level)
